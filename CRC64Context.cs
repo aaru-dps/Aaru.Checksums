@@ -119,10 +119,12 @@ namespace Aaru.Checksums
         /// <summary>Returns a hexadecimal representation of the hash value.</summary>
         public string End()
         {
+            ulong crc = _hashInt ^ _finalSeed;
+
             var crc64Output = new StringBuilder();
 
-            for(int i = 0; i < BigEndianBitConverter.GetBytes(_hashInt ^= _finalSeed).Length; i++)
-                crc64Output.Append(BigEndianBitConverter.GetBytes(_hashInt ^= _finalSeed)[i].ToString("x2"));
+            for(int i = 0; i < BigEndianBitConverter.GetBytes(crc).Length; i++)
+                crc64Output.Append(BigEndianBitConverter.GetBytes(crc)[i].ToString("x2"));
 
             return crc64Output.ToString();
         }
